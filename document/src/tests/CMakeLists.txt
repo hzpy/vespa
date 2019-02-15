@@ -7,7 +7,6 @@ vespa_add_executable(document_testrunner_app TEST
     documentcalculatortestcase.cpp
     buckettest.cpp
     globalidtest.cpp
-    documentidtest.cpp
     documenttypetestcase.cpp
     primitivefieldvaluetest.cpp
     arrayfieldvaluetest.cpp
@@ -40,4 +39,22 @@ vespa_add_test(
     NAME document_testrunner_app
     COMMAND python ${PROJECT_SOURCE_DIR}/cppunit-parallelize.py --chunks 1 $<TARGET_FILE:document_testrunner_app>
     DEPENDS document_testrunner_app
+)
+
+vespa_add_executable(document_gtest_runner_app TEST
+    SOURCES
+    documentidtest.cpp
+    gtest_runner.cpp
+    DEPENDS
+    document
+    gtest
+    gmock
+    AFTER
+    document_documentconfig
+)
+
+vespa_add_test(
+    NAME document_gtest_runner_app
+    COMMAND $<TARGET_FILE:document_gtest_runner_app>
+    DEPENDS document_gtest_runner_app
 )
